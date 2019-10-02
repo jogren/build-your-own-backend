@@ -21,7 +21,7 @@ const teamData = [
       {
         name: 'CJ Sapong',
         goals: 12,
-        position: F
+        position: 'F'
       },
       {
         name: 'Nemanja Nikolic',
@@ -311,4 +311,4 @@ const teamData = [
   }
 ]
 
-export default teamData;
+module.exports = teamData;
