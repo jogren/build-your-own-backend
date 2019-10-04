@@ -99,7 +99,7 @@ app.post('/api/v1/teams', (req, res) => {
 app.post('/api/v1/players', (req, res) => {
   const player = req.body;
 
-  for (let requiredParameter of ['name', 'goals', 'position']) {
+  for (let requiredParameter of ['name', 'goals', 'position', 'team']) {
     if(!player[requiredParameter]) {
       return res
         .status(422)
