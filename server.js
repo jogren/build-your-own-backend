@@ -96,18 +96,20 @@ app.post('/api/v1/teams', (req, res) => {
     });
 });
 
-app.post('/api/v1/players', (req, res) => {
-  const player = req.body;
+app.post('/api/v1/players', async (req, res) => {
+  let player = req.body;
+  let targetTeam = await database('teams').where('name', player.team).first();
+  let playerToInsert = {goals: player.goals, position: player.position, name: player.name, team_id: targetTeam.id }
 
-  for (let requiredParameter of ['name', 'goals', 'position']) {
+  for (let requiredParameter of ['name', 'goals', 'position', 'team']) {
     if(!player[requiredParameter]) {
       return res
         .status(422)
-        .send({ error: `Expected format: { name: <string>, goals: <number>, position: <string>. You are missing a ${requiredParameter} property. }` })
+        .send({ error: `Expected format: { name: <string>, goals: <number>, position: <string>, team: <string>. You are missing a ${requiredParameter} property. }` })
     }
   }
 
-  database('players').insert(player, 'id')
+  database('players').insert(playerToInsert, 'id')
     .then((player) => {
       res.status(201).json({ id: player[0] })
     })
